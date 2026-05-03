@@ -1,0 +1,122 @@
+schema: '2.0'
+stages:
+  eda:
+    cmd: python -m papermill main.ipynb main_output.ipynb --cwd 
+      C:\Users\User\TPU\MethodsAI\tpu_8EM51_ML_course
+    deps:
+    - path: data/Annotation.md
+      hash: md5
+      md5: e6416b245b48a43fef89cd447886f909
+      size: 1712
+    - path: data/raw/insurance.csv
+      hash: md5
+      md5: 4c956a5c7ea95b8455327e811f865081
+      size: 51759
+    outs:
+    - path: data/processed/correlation_matrix.png
+      hash: md5
+      md5: 6c0fcbce11951a4586adb9a6a887d113
+      size: 201196
+    - path: data/processed/eda_metrics.json
+      hash: md5
+      md5: b72d9cbb53edccf7f3b3106adbe78d53
+      size: 503
+    - path: data/processed/eda_results.json
+      hash: md5
+      md5: 696ab807780b96caba172234ff8d9ff2
+      size: 2345
+  model_training:
+    cmd: python -m papermill model_training.ipynb model_training_output.ipynb 
+      --cwd .
+    deps:
+    - path: data/processed/eda_results.json
+      hash: md5
+      md5: 696ab807780b96caba172234ff8d9ff2
+      size: 2345
+    - path: data/raw/insurance.csv
+      hash: md5
+      md5: 4c956a5c7ea95b8455327e811f865081
+      size: 51759
+    params:
+      params.yaml:
+        model_training.catboost:
+          iterations: 500
+          learning_rate: 0.05
+          depth: 6
+          verbose: 0
+        model_training.decision_tree:
+          max_depth: 5
+          min_samples_split: 10
+          min_samples_leaf: 5
+        model_training.linear_regression:
+          fit_intercept: true
+        model_training.neural_network:
+          hidden_layer_sizes:
+          - 128
+          - 64
+          activation: relu
+          solver: adam
+          alpha: 0.0001
+          batch_size: 32
+          learning_rate_init: 0.001
+          max_iter: 500
+          early_stopping: true
+          validation_fraction: 0.1
+          random_state: 42
+        model_training.random_state: 42
+        model_training.test_size: 0.2
+        model_training.xgboost:
+          n_estimators: 300
+          max_depth: 4
+          learning_rate: 0.05
+          verbosity: 0
+    outs:
+    - path: data/processed/all_models_metrics.json
+      hash: md5
+      md5: 6bab9d61adafbb1323f76f554b4d0ab9
+      size: 614
+    - path: data/processed/decision_tree_first_nodes.png
+      hash: md5
+      md5: 74e14ffeabab515085f0e8f1fdf926ed
+      size: 251755
+    - path: data/processed/feature_importance_catboost.png
+      hash: md5
+      md5: d33f9cdc0c01151a8353cc2ecf811602
+      size: 15428
+    - path: data/processed/feature_importance_xgboost.png
+      hash: md5
+      md5: 3695c2e4dc14f474c5f27bcc90ca996d
+      size: 15615
+    - path: data/processed/nn_training_curves.csv
+      hash: md5
+      md5: 4cbd30349b2cab9dafcce3140f90a179
+      size: 1295
+    - path: data/processed/nn_training_history.png
+      hash: md5
+      md5: cfce2c0bd3073b5e0576863b398bed69
+      size: 17067
+    - path: data/processed/nn_weight_histograms.png
+      hash: md5
+      md5: 7228251c5980022aec870554b54235a6
+      size: 17243
+  finalize:
+    cmd: python -m papermill final_report.ipynb final_report_output.ipynb --cwd 
+      .
+    deps:
+    - path: data/processed/all_models_metrics.json
+      hash: md5
+      md5: 6bab9d61adafbb1323f76f554b4d0ab9
+      size: 614
+    - path: data/processed/eda_results.json
+      hash: md5
+      md5: 696ab807780b96caba172234ff8d9ff2
+      size: 2345
+    outs:
+    - path: data/processed/comparison_table.csv
+      hash: md5
+      md5: 23b0ccb40954cc8685d69e83beddad1d
+      size: 192
+    - path: data/processed/dag.png
+      hash: md5
+      md5: 37591b63bfdcaba29953d184c367edbe
+      size: 14270

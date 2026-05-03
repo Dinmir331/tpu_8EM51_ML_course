@@ -1,0 +1,17 @@
+{
+  "dataset_size": 1244,
+  "num_features": 6,
+  "missing_values": 0,
+  "target_mean": 13198.21634233119,
+  "target_median": 9382.033,
+  "target_std": 12001.805804196702,
+  "target_min": 1121.8739,
+  "target_max": 63770.42801,
+  "target_skewness": 1.5142901665069861,
+  "corr_smoker": 0.7864752089144676,
+  "corr_age": 0.2940927287496691,
+  "corr_bmi": 0.2002694792736536,
+  "corr_children": 0.05924125075445737,
+  "corr_sex": 0.05981544802329737,
+  "corr_region": 0.002984071893916515
+}

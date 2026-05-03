@@ -1,0 +1,62 @@
+stages:
+  eda:
+    desc: "Exploratory Data Analysis - анализ датасета и выбор признаков"
+    cmd: python -m papermill main.ipynb main_output.ipynb --cwd C:\Users\User\TPU\MethodsAI\tpu_8EM51_ML_course
+    wdir: .
+    deps:
+      - data/raw/insurance.csv
+      - data/Annotation.md
+    outs:
+      - data/processed/eda_results.json:
+          cache: false
+      - data/processed/correlation_matrix.png:
+          cache: false
+    metrics:
+      - data/processed/eda_metrics.json:
+          cache: false
+  
+  model_training:
+    desc: "Обучение всех моделей (LinReg, Tree, CatBoost, XGBoost, NN) и оценка"
+    cmd: python -m papermill model_training.ipynb model_training_output.ipynb --cwd .
+    wdir: .
+    deps:
+      - data/raw/insurance.csv
+      - data/processed/eda_results.json   # Чтобы гарантировать EDA перед обучением
+    params:
+      - model_training.test_size
+      - model_training.random_state
+      - model_training.linear_regression
+      - model_training.decision_tree
+      - model_training.catboost
+      - model_training.xgboost
+      - model_training.neural_network
+    outs:
+      - data/processed/feature_importance_catboost.png:
+          cache: false
+      - data/processed/feature_importance_xgboost.png:
+          cache: false
+      - data/processed/decision_tree_first_nodes.png:
+          cache: false
+      - data/processed/nn_training_history.png:
+          cache: false
+      - data/processed/nn_weight_histograms.png:
+          cache: false
+    metrics:
+      - data/processed/all_models_metrics.json:
+          cache: false
+    plots:
+      - data/processed/nn_training_curves.csv:
+          cache: false
+  
+  finalize:
+    desc: "Сводная таблица метрик, граф DVC и вывод по работе"
+    cmd: python -m papermill final_report.ipynb final_report_output.ipynb --cwd .
+    wdir: .
+    deps:
+      - data/processed/all_models_metrics.json
+      - data/processed/eda_results.json
+    outs:
+      - data/processed/comparison_table.csv:
+          cache: false
+      - data/processed/dag.png:
+          cache: false

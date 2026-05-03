@@ -1,0 +1,49 @@
+eda:
+  test_size: 0.2
+  random_state: 42
+  target_column: "charges"
+  categorical_features:
+    - sex
+    - smoker
+    - region
+  numerical_features:
+    - age
+    - bmi
+    - children
+    
+model_training:
+  test_size: 0.2
+  valid_size: 0.1   # от исходных данных
+  random_state: 42
+  
+  linear_regression:
+    fit_intercept: true
+
+  decision_tree:
+    max_depth: 5
+    min_samples_split: 10
+    min_samples_leaf: 5
+
+  catboost:
+    iterations: 500
+    learning_rate: 0.05
+    depth: 6
+    verbose: 0
+
+  xgboost:
+    n_estimators: 300
+    max_depth: 4
+    learning_rate: 0.05
+    verbosity: 0
+
+  neural_network:
+    hidden_layer_sizes: [128, 64]
+    activation: 'relu'
+    solver: 'adam'
+    alpha: 0.0001
+    batch_size: 32
+    learning_rate_init: 0.001
+    max_iter: 500
+    early_stopping: true
+    validation_fraction: 0.1
+    random_state: 42
