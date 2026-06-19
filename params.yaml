@@ -13,7 +13,7 @@ eda:
     
 model_training:
   test_size: 0.2
-  valid_size: 0.1   # от исходных данных
+  valid_size: 0.1  
   random_state: 42
   
   linear_regression:
@@ -37,13 +37,7 @@ model_training:
     verbosity: 0
 
   neural_network:
-    hidden_layer_sizes: [128, 64]
-    activation: 'relu'
-    solver: 'adam'
-    alpha: 0.0001
+    epochs: 100
     batch_size: 32
-    learning_rate_init: 0.001
-    max_iter: 500
-    early_stopping: true
-    validation_fraction: 0.1
-    random_state: 42
+    learning_rate: 0.001
+    hidden_units: [128, 64] 

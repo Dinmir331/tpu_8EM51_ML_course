@@ -17,7 +17,7 @@ stages:
   
   model_training:
     desc: "Обучение всех моделей (LinReg, Tree, CatBoost, XGBoost, NN) и оценка"
-    cmd: python -m papermill model_training.ipynb model_training_output.ipynb --cwd .
+    cmd: python -m papermill model_training.ipynb model_training_output.ipynb --cwd . --kernel tf_env
     wdir: .
     deps:
       - data/raw/insurance.csv
