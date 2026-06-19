@@ -3,4 +3,4 @@ linear_regression,0.2284,0.2867,0.7237
 decision_tree,0.1712,0.2309,0.7928
 catboost,0.1707,0.2553,0.7935
 xgboost,0.1711,0.2133,0.7929
-neural_network,0.1885,0.2118,0.7719
+neural_network,0.1756,0.2445,0.7875
